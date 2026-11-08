@@ -1,0 +1,32 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+canvas {
+    display : block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.grain {
+    position: fixed;
+    inset: -50px;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.09' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation: jump 0.6s steps(1) infinite;
+
+}
+
+@keyframes jump {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-23px, 17px); }
+    50% { transform: translate(19px, -31px); }
+    75% { transform: translate(-34px, 12px); }
+
+}
