@@ -48,7 +48,8 @@ function addFlake(x, y, moveX) {
         vx: moveX * 0.05 + rand(-0.8, 0.8),
         vy: rand(-0.4, 0.4),
         g: gravity * (0.6 + size * 0.25),
-        phase: rand(0.004, 0.02),
+        phase: rand(0, 6.28),
+        sway: rand(0.004, 0.02),
         size: size,
         squash: rand(0.6, 1),
         tilt: rand(0, 3.14),
@@ -67,7 +68,7 @@ function pushFlakes(x, y ,moveX, moveY) {
     for (var i = 0; i<flakes.length; i++) {
         var f = flakes[i];
         var dx = f.x - x ;
-        var dy = f.x - y;
+        var dy = f.y - y;
         var d = Math.hypot(dx,dy);
         if (d == 0 || d > radius) continue;
 
@@ -90,9 +91,9 @@ function onMove(x, y) {
 
     pushFlakes(x, y, moveX, moveY);
 
-    var n = Math.Min(Math.round(dist / 10 * density), 14);
+    var n = Math.min(Math.round(dist / 10 * density), 14);
     for (var i = 1; i <= n ; i++){
-        addFlake(lastX + moveX * i / n, lastY + move * i / n, moveX);
+        addFlake(lastX + moveX * i / n, lastY + moveY * i / n, moveX);
     }
 
 
@@ -123,5 +124,103 @@ function updatePile() {
 }
 
 function drawPile() {
-    
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for (var i =0; i< pile.length; i++) {
+        ctx.lineTo(i * colW, H - pile[i]);
+    }
+    ctx.lineTo(W, H);
+    ctx.closePath();
+    ctx.fillStyle = "rgba(235,235,235,0.45)";
+    ctx.fill();
 }
+
+function drawFlake(f) {
+    var t = f.age / f.life;
+    var a = f.alpha * Math.min(t * 10, 1) * (1 - t) * (1 - t);
+    if (a < 0.01) return;
+
+    ctx.save();
+    ctx.globalAlpha = a;
+    ctx.fillStyle = "rgba(" + f.grey + "," + f.grey + "," + f.grey + ")";
+    if(f.glow) {
+        ctx.shadowColor = "rgba(255,255,255,0.8)";
+        ctx.shadowBlur = f.size * 4;
+    }
+    ctx.beginPath();
+    ctx.ellipse(f.x,f.y,f.size, f.size * f. squash, f.tilt, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+}
+
+function loop(now) {
+    var dt = Math.min((now - lastTime) / 16.67, 3);
+    lastTime = now;
+
+    ctx.globalAlpha = trail;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0,0,W,H);
+    ctx.globalAlpha = 1;
+
+    updatePile();
+    drawPile();
+
+    for(var i = flakes.length - 1; i >= 0; i--){
+        var f = flakes[i];
+
+        f.age += dt;
+        f.vy += f.g * dt;
+        f.vx += Math.sin(f.age * 0.04 + f.phase) * f.sway * dt;
+        f.vx *= 0.97;
+        f.vy *= 0.985;
+        f.x += f.vx * dt;
+        f.y += f.vy * dt;
+
+        var col = Math.floor(f.x / colW);
+        var landed = col >= 0 && col < pile.length && f.y >= H - pile[col];
+
+        if (landed) {
+            var amount = f.size * 0.25;
+            addToPile(col, amount);
+            addToPile(col - 1, amount / 2);
+            addToPile(col + 1, amount / 2);
+        }
+
+        if (landed || f.age > f.life || f.y > H + 30) {
+            flakes.splice(i, 1);
+            continue;
+        }
+        drawFlake(f);
+    }
+
+    if (flakes.length > maxFlakes) {
+        flakes.splice(0, flakes.length - maxFlakes);
+    }
+
+    requestAnimationFrame(loop);
+}
+
+window.addEventListener("mousemove", function (e) {
+    onMove(e.clientX, e.clientY);
+});
+window.addEventListener("touchstart", function (e) {
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+}, { passive: true });
+
+window.addEventListener("touchmove", function (e) {
+    onMove(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+
+function forgetPointer() {
+    lastX = null;
+    lastY = null;
+}
+
+window.addEventListener("touchend", forgetPointer);
+document.addEventListener("mouseleave", forgetPointer );
+
+window.addEventListener("resize", resize);
+
+resize();
+requestAnimationFrame(loop);
