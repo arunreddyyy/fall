@@ -1,0 +1,35 @@
+VOID FALL
+
+It is an electro art made using HTML, In the plain black screen when you move through it, snow falls from where the cursor goes.
+
+Features
+
+When you move the cursor the snow or flakes drops.
+
+Move faster and you get more of them.
+
+Flakes are different sizes like tiny, few are big and they glow.
+
+When you move the cursor very fast the snow settle down at the bottom.
+
+
+How To Run 
+
+Clone the git repo 
+
+"https://github.com/arunreddyyy/fall.git"
+
+       "OR"
+
+Go through the deployed link and enjoy the site..
+
+
+Project Objective
+
+To build an interactive Generative art in the browser using only HTML, CSS , and javascript, where the moving the cursor through the black screen make falling smow.
+
+
+
+Built By using
+
+HTML, CSS, JavaScript.
