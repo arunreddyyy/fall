@@ -1,40 +1,49 @@
-VOID FALL
+VOIDFALL
+A black screen where snow falls from wherever your mouse or finger.
 
-It is an electro art made using HTML, In the plain black screen when you move through it, snow falls from where the cursor goes.
+Description
 
-Features
+VOIDFALL is a small interactive animation that runs in the broswer. You start with an empty black screen.Move your mouse and snowflakes appear along your path. The faster you move, the more flakes you get.
 
-When you move the cursor the snow or flakes drops.
+The flakes are not just decoration. Your cursor also pushes the flakes around it, so you can sweep them away like wind. They fall slowly. When a flake reach the bottom, it add to a small pile of snow. The pile slowly spreads out and melts away, so it never grows forever.
 
-Move faster and you get more of them.
+There is also a light film grain on top to give it a  soft, old-screen look. Bigger flakes get a faint glow and are a bit more see-through, and smaller ones are sharper.
 
-Flakes are different sizes like tiny, few are big and they glow.
+it is made with HTML, CSS and JavaScript.
 
-When you move the cursor very fast the snow settle down at the bottom.
-
-Images
-
-![Screenshot 1](images/Screenshot-176.png)
-![Screenshot 2](images/Screenshot-175.png)
-
-How To Run 
-
-Clone the git repo 
-
-"https://github.com/arunreddyyy/fall.git"
-
-       "OR"
-
-Go through the deployed link and enjoy the site..
-"https://arunreddyyy.github.io/fall/"
-
-
-Project Objective
-
-To build an interactive Generative art in the browser using only HTML, CSS , and javascript, where the moving the cursor through the black screen make falling smow.
+Screenshots
 
 
 
-Built By using
 
-HTML, CSS, JavaScript.
+Dependencies
+
+A modern broswer(chrome, Firefox, safari..)
+nothing to install..
+
+Installing
+Download or clone this repo
+
+
+Executing program
+Open index.html in your browser.
+Move you mouse around the screen to make snow
+On a phone or tablet, drag your finger instead.
+
+
+Help
+
+I see only a black screen. That is normal at start. Snow only appears when you move. Clicking alone does nothing.
+
+It feels slow on my device. Open script.js and lower "maxFlekes" or density at top of the file.
+
+The snow pile at the bottom is too big or too small. Change "maxPile". Both are at top of script.js.
+
+I want the cursor to push the snow more or less. "Change pushRadius in script.js.
+
+
+AI Usage
+
+I wrote this project myself.I used AI for help with the small math issues.
+
+Everything else, the structure and the settings, is my own work. Estimated AI share of the project is abot 10-15%.
